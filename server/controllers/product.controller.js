@@ -37,7 +37,7 @@ const getProduct = ( request, response ) => {
 };
 
 const updateProduct = ( request, response ) => {
-    Product.findOneAndUpdate( {_id: request.params.id}, request.body, {new:true} )
+    Product.findOneAndUpdate( {_id: request.params.id}, request.body, { runValidators: true, new: true } )
         .then( updatedProduct => response.status( 202 ).json( updatedProduct ) )
         .catch( err => {
             response.statusMessage = 'There was an error executing the update.';
