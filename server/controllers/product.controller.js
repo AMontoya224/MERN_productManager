@@ -36,10 +36,30 @@ const getProduct = ( request, response ) => {
         });
 };
 
+const updateProduct = ( request, response ) => {
+    Product.findOneAndUpdate( {_id: request.params.id}, request.body, {new:true} )
+        .then( updatedProduct => response.status( 202 ).json( updatedProduct ) )
+        .catch( err => {
+            response.statusMessage = 'There was an error executing the update.';
+            return response.status( 400 ).json( err ) 
+        });
+};
+
+const deleteProduct = ( request, response ) => {
+    Product.deleteOne( { _id: request.params.id } )
+        .then( () => response.status( 204 ).end() )
+        .catch( err => {
+            response.statusMessage = "There was an error executing the delete. ";
+            return response.status( 400 ).json( err )
+        });
+}
+
 const ProductController = {
     createProduct,
     getAllProducts,
-    getProduct
+    getProduct,
+    updateProduct,
+    deleteProduct
 };
 
 module.exports = ProductController;
